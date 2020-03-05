@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:appdba="http://www.datical.net/xml/ns/appdba" xmlns:datical="http://www.datical.net/xml/ns/datical"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+	 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog
+	 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+	<!-- id for these changeSets is generated as Atom-like timestamp format -->
+	<!-- for useful generation see https://timestampgenerator.com/#copyAtom -->
+	<changeSet author="Hryhorii_Popov" id="2020-02-29T23:07:54+00:00">
+		<createTable tableName="grade">
+			<column autoIncrement="true" name="id" type="INT">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="code" type="VARCHAR(45)">
+				<constraints nullable="false" />
+			</column>
+			<column name="max_mark" type="INT">
+				<constraints nullable="false" />
+			</column>
+			<column name="initial_mark" type="INT">
+				<constraints nullable="false" />
+			</column>
+			<column name="test_id" type="INT">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+	<changeSet author="Hryhorii_Popov" id="2020-02-29T23:08:08+00:00">
+		<createTable tableName="grade_mark_change_rule">
+			<column autoIncrement="true" name="id" type="BIGINT">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="question_answer_id" type="BIGINT">
+				<constraints nullable="false" />
+			</column>
+			<column name="grade_id" type="INT">
+				<constraints nullable="false" />
+			</column>
+			<column name="mark_delta" type="INT">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+	<changeSet author="Hryhorii_Popov" id="2020-02-29T23:08:25+00:00">
+		<createTable tableName="min_grade_mark_requirement">
+			<column autoIncrement="true" name="id" type="BIGINT">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="grade_id" type="INT">
+				<constraints nullable="false" />
+			</column>
+			<column name="value" type="INT">
+				<constraints nullable="false" />
+			</column>
+			<column name="question_definition_rule_id" type="BIGINT">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+	<changeSet author="Hryhorii_Popov" id="2020-02-29T23:08:43+00:00">
+		<createTable tableName="question">
+			<column autoIncrement="true" name="id" type="INT">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="sentence" type="VARCHAR(256)">
+				<constraints nullable="false" />
+			</column>
+			<column name="test_id" type="INT">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+	<changeSet author="Hryhorii_Popov" id="2020-02-29T23:08:59+00:00">
+		<createTable tableName="question_answer">
+			<column name="id" type="BIGINT">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="sentence" type="VARCHAR(64)">
+				<constraints nullable="false" />
+			</column>
+			<column name="question_id" type="INT">
+				<constraints nullable="false" />
+			</column>
+			<column name="is_correct" type="TINYINT(3)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+	<changeSet author="Hryhorii_Popov" id="2020-02-29T23:09:19+00:00">
+		<createTable tableName="question_definition_rule">
+			<column autoIncrement="true" name="id" type="BIGINT">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="question_number_from" type="INT">
+				<constraints nullable="false" />
+			</column>
+			<column name="question_number_to" type="INT" />
+		</createTable>
+	</changeSet>
+	<changeSet author="Hryhorii_Popov" id="2020-02-29T23:09:43+00:00">
+		<createTable tableName="question_definition_rule_has_question">
+			<column name="question_definition_rule_id" type="BIGINT">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="question_id" type="INT">
+				<constraints primaryKey="true" />
+			</column>
+		</createTable>
+	</changeSet>
+	<changeSet author="Hryhorii_Popov" id="2020-02-29T23:10:07+00:00">
+		<createTable tableName="test">
+			<column autoIncrement="true" name="id" type="INT">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="name" type="VARCHAR(64)">
+				<constraints nullable="false" unique="true" />
+			</column>
+			<column name="created" type="datetime">
+				<constraints nullable="false" />
+			</column>
+			<column name="creator_name" type="VARCHAR(45)" />
+		</createTable>
+	</changeSet>
+	<changeSet author="Hryhorii_Popov" id="2020-02-29T23:10:23+00:00">
+		<createIndex indexName="fk_grade_mark_change_rule_grade1_idx" tableName="grade_mark_change_rule">
+			<column name="grade_id" />
+		</createIndex>
+	</changeSet>
+	<changeSet author="Hryhorii_Popov" id="2020-02-29T23:10:38+00:00">
+		<createIndex indexName="fk_grade_mark_change_rule_question_answer1_idx" tableName="grade_mark_change_rule">
+			<column name="question_answer_id" />
+		</createIndex>
+	</changeSet>
+	<changeSet author="Hryhorii_Popov" id="2020-02-29T23:10:59+00:00">
+		<createIndex indexName="fk_grade_min_requirement_define_question_rule1_idx" tableName="min_grade_mark_requirement">
+			<column name="question_definition_rule_id" />
+		</createIndex>
+	</changeSet>
+	<changeSet author="Hryhorii_Popov" id="2020-02-29T23:11:13+00:00">
+		<createIndex indexName="fk_grade_min_requirement_grade1_idx" tableName="min_grade_mark_requirement">
+			<column name="grade_id" />
+		</createIndex>
+	</changeSet>
+	<changeSet author="Hryhorii_Popov" id="2020-02-29T23:11:19+00:00">
+		<createIndex indexName="fk_grade_test1_idx" tableName="grade">
+			<column name="test_id" />
+		</createIndex>
+	</changeSet>
+	<changeSet author="Hryhorii_Popov" id="2020-02-29T23:11:33+00:00">
+		<createIndex indexName="fk_question_answer_question_idx" tableName="question_answer">
+			<column name="question_id" />
+		</createIndex>
+	</changeSet>
+	<changeSet author="Hryhorii_Popov" id="2020-02-29T23:11:47+00:00">
+		<createIndex indexName="fk_question_definition_rule_has_question_question1_idx"
+			tableName="question_definition_rule_has_question">
+			<column name="question_id" />
+		</createIndex>
+	</changeSet>
+	<changeSet author="Hryhorii_Popov" id="2020-02-29T23:11:59+00:00">
+		<createIndex indexName="fk_question_definition_rule_has_question_question_definitio_idx"
+			tableName="question_definition_rule_has_question">
+			<column name="question_definition_rule_id" />
+		</createIndex>
+	</changeSet>
+	<changeSet author="Hryhorii_Popov" id="2020-02-29T23:12:11+00:00">
+		<createIndex indexName="fk_question_test1_idx" tableName="question">
+			<column name="test_id" />
+		</createIndex>
+	</changeSet>
+	<changeSet author="Hryhorii_Popov" id="2020-02-29T23:12:26+00:00">
+		<addForeignKeyConstraint baseColumnNames="grade_id" baseTableName="grade_mark_change_rule"
+			constraintName="fk_grade_mark_change_rule_grade1" deferrable="false" initiallyDeferred="false" onDelete="CASCADE"
+			onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="grade" validate="true" />
+	</changeSet>
+	<changeSet author="Hryhorii_Popov" id="2020-02-29T23:12:47+00:00">
+		<addForeignKeyConstraint baseColumnNames="question_answer_id" baseTableName="grade_mark_change_rule"
+			constraintName="fk_grade_mark_change_rule_question_answer1" deferrable="false" initiallyDeferred="false" onDelete="CASCADE"
+			onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="question_answer" validate="true" />
+	</changeSet>
+	<changeSet author="Hryhorii_Popov " id="2020-02-29T23:12:54+00:00">
+		<addForeignKeyConstraint baseColumnNames="question_definition_rule_id"
+			baseTableName="min_grade_mark_requirement" constraintName="fk_grade_min_requirement_define_question_rule1" deferrable="false"
+			initiallyDeferred="false" onDelete="CASCADE" onUpdate="RESTRICT" referencedColumnNames="id"
+			referencedTableName="question_definition_rule" validate="true" />
+	</changeSet>
+	<changeSet author="Hryhorii_Popov" id="2020-02-29T23:13:10+00:00">
+		<addForeignKeyConstraint baseColumnNames="grade_id" baseTableName="min_grade_mark_requirement"
+			constraintName="fk_grade_min_requirement_grade1" deferrable="false" initiallyDeferred="false" onDelete="CASCADE"
+			onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="grade" validate="true" />
+	</changeSet>
+	<changeSet author="Hryhorii_Popov" id="2020-02-29T23:13:29+00:00">
+		<addForeignKeyConstraint baseColumnNames="test_id" baseTableName="grade" constraintName="fk_grade_test1"
+			deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="RESTRICT" referencedColumnNames="id"
+			referencedTableName="test" validate="true" />
+	</changeSet>
+	<changeSet author="Hryhorii_Popov" id="2020-02-29T23:13:34+00:00">
+		<addForeignKeyConstraint baseColumnNames="question_id" baseTableName="question_answer"
+			constraintName="fk_question_answer_question" deferrable="false" initiallyDeferred="false" onDelete="CASCADE"
+			onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="question" validate="true" />
+	</changeSet>
+	<changeSet author="Hryhorii_Popov" id="2020-02-29T23:13:45+00:00">
+		<addForeignKeyConstraint baseColumnNames="question_id"
+			baseTableName="question_definition_rule_has_question" constraintName="fk_question_definition_rule_has_question_question1"
+			deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="RESTRICT" referencedColumnNames="id"
+			referencedTableName="question" validate="true" />
+	</changeSet>
+	<changeSet author="Hryhorii_Popov" id="2020-02-29T23:13:56+00:00">
+		<addForeignKeyConstraint baseColumnNames="question_definition_rule_id"
+			baseTableName="question_definition_rule_has_question"
+			constraintName="fk_question_definition_rule_has_question_question_definition_1" deferrable="false" initiallyDeferred="false"
+			onDelete="CASCADE" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="question_definition_rule"
+			validate="true" />
+	</changeSet>
+	<changeSet author="Hryhorii_Popov" id="2020-02-29T23:14:09+00:00">
+		<addForeignKeyConstraint baseColumnNames="test_id" baseTableName="question"
+			constraintName="fk_question_test1" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+			referencedColumnNames="id" referencedTableName="test" validate="true" />
+	</changeSet>
+</databaseChangeLog>

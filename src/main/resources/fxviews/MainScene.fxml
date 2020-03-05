@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="838.0" prefWidth="1054.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.atlassian.cmathtutor.adaptive.fxcontroller.MainSceneController">
+	<children>
+		<Label fx:id="whatToDoLabel" layoutX="111.0" layoutY="81.0" text="You can now initialize database to load default 'Simple English Credit' test">
+			<font>
+				<Font name="MS Outlook" size="20.0" />
+			</font>
+		</Label>
+		<Button fx:id="initDatabaseButton" layoutX="834.0" layoutY="57.0" mnemonicParsing="false" onAction="#initializeDatabase" text="Initialize database">
+			<font>
+				<Font size="18.0" />
+			</font>
+		</Button>
+		<Label layoutX="111.0" layoutY="38.0" text="Welcome to Adaptive testing application!">
+			<font>
+				<Font name="MS Outlook" size="32.0" />
+			</font>
+		</Label>
+		<AnchorPane fx:id="testContentAnchorPane" layoutX="28.0" layoutY="143.0" prefHeight="643.0" prefWidth="998.0">
+			<children>
+				<Label fx:id="testNameLabel" layoutX="156.0" layoutY="33.0" prefHeight="23.0" prefWidth="686.0">
+					<font>
+						<Font name="MS Outlook" size="20.0" />
+					</font>
+				</Label>
+				<Button fx:id="startTestButton" disable="true" layoutX="444.0" layoutY="78.0" onAction="#startTest" text="Start the test!">
+				</Button>
+				<AnchorPane fx:id="gameProcessAnchorPane" layoutX="-1.0" layoutY="124.0" prefHeight="546.0" prefWidth="1003.0">
+					<children>
+						<AnchorPane layoutX="608.0" prefHeight="539.0" prefWidth="395.0">
+							<children>
+								<ScrollPane layoutX="11.0" layoutY="55.0" prefHeight="271.0" prefWidth="367.0">
+									<content>
+										<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="267.0" prefWidth="346.0">
+											<children>
+												<TextArea fx:id="logTextArea" prefHeight="271.0" prefWidth="343.0" />
+											</children>
+										</AnchorPane>
+									</content>
+								</ScrollPane>
+								<Label layoutX="177.0" layoutY="14.0" prefHeight="31.0" prefWidth="41.0" text="Log">
+									<font>
+										<Font name="MS Outlook" size="25.0" />
+									</font>
+								</Label>
+								<AnchorPane layoutX="14.0" layoutY="326.0" prefHeight="200.0" prefWidth="367.0">
+									<children>
+										<Label layoutX="105.0" layoutY="14.0" prefHeight="31.0" prefWidth="158.0" text="Current state">
+											<font>
+												<Font name="MS Outlook" size="25.0" />
+											</font>
+										</Label>
+										<Label layoutX="14.0" layoutY="45.0" prefHeight="31.0" prefWidth="110.0" text="Question №:">
+											<font>
+												<Font name="MS Outlook" size="18.0" />
+											</font>
+										</Label>
+										<Label fx:id="questionNumberLabel" layoutX="129.0" layoutY="45.0" prefHeight="31.0" prefWidth="110.0">
+											<font>
+												<Font name="MS Outlook" size="18.0" />
+											</font>
+										</Label>
+										<VBox fx:id="gradeMarksStateVBox" layoutX="9.0" layoutY="75.0" prefHeight="139.0" prefWidth="331.0" />
+									</children>
+								</AnchorPane>
+							</children>
+						</AnchorPane>
+						<AnchorPane fx:id="ansersAnchorPane" layoutY="147.0" prefHeight="401.0" prefWidth="619.0" visible="false">
+							<children>
+								<VBox fx:id="answerOptionsVBox" layoutX="53.0" layoutY="22.0" prefHeight="214.0" prefWidth="524.0" />
+								<Button fx:id="checkAnswerButton" layoutX="53.0" layoutY="245.0" mnemonicParsing="false" onAction="#checkAnswer" text="Check answer" />
+								<Button fx:id="nextButton" layoutX="512.0" layoutY="245.0" mnemonicParsing="false" onAction="#next" prefHeight="31.0" prefWidth="62.0" text="Next" />
+								<Label fx:id="checkAnswerResultLabel" layoutX="14.0" layoutY="366.0" prefHeight="21.0" prefWidth="587.0" text="Your answer is..." visible="false" />
+							</children>
+						</AnchorPane>
+						<Label fx:id="questionLabel" alignment="TOP_LEFT" layoutX="48.0" layoutY="29.0" prefHeight="97.0" prefWidth="504.0" text="Choose the correct translation..." wrapText="true">
+							<font>
+								<Font name="MS Outlook" size="26.0" />
+							</font>
+						</Label>
+					</children>
+				</AnchorPane>
+			</children>
+		</AnchorPane>
+	</children>
+</AnchorPane>

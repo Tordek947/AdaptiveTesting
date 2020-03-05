@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:appdba="http://www.datical.net/xml/ns/appdba" xmlns:datical="http://www.datical.net/xml/ns/datical"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+	 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog
+	 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+	<!-- id for these changeSets is generated as Atom-like timestamp format -->
+	<!-- for useful generation see https://timestampgenerator.com/#copyAtom -->
+	<changeSet id="2020-03-03T12:50:30+00:00" author="Hryhorii_Popov">
+		<addColumn tableName="question_definition_rule">
+			<column name="test_id" type="INT">
+				<constraints nullable="false"/>
+			</column>
+		</addColumn>
+	</changeSet>
+	<changeSet author="Hryhorii_Popov" id="2020-03-03T12:56:30+00:00">
+		<addForeignKeyConstraint baseColumnNames="test_id" baseTableName="question_definition_rule"
+			constraintName="fk_question_definition_rule_test_id" deferrable="false" initiallyDeferred="false" onDelete="CASCADE"
+			onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="test" validate="true" />
+	</changeSet>
+	<changeSet author="Hryhorii_Popov" id="2020-03-03T12:57:30+00:00">
+		<createIndex indexName="fk_question_definition_rule_test_id_idx" tableName="question_definition_rule">
+			<column name="test_id" />
+		</createIndex>
+	</changeSet>
+</databaseChangeLog>
