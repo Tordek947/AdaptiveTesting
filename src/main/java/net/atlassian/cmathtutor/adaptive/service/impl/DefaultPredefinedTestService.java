@@ -1,8 +1,8 @@
 package net.atlassian.cmathtutor.adaptive.service.impl;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.Collection;
 import java.util.Collections;
@@ -42,8 +42,9 @@ import net.atlassian.cmathtutor.adaptive.service.TestService;
 @Service
 public class DefaultPredefinedTestService implements PredefinedTestService {
 
-    private static final String CSV_HOME = "C:/Users/Hryhorii_Popov/Data/Other/Learning/KPI/4/2Sem/AI/lab/1/AdaptiveTesting"
-	    + "/src/main/resources/csv/simple-english-credit/";
+    private static final String CSV_HOME = "/csv/simple-english-credit/";
+//	    "C:/Users/Hryhorii_Popov/Data/Other/Learning/KPI/4/2Sem/AI/lab/1/AdaptiveTesting"
+//	    + "/src/main/resources/csv/simple-english-credit/";
 
     @Autowired
     private TestService testService;
@@ -76,9 +77,10 @@ public class DefaultPredefinedTestService implements PredefinedTestService {
     }
 
     private <T> List<T> parseCsv(String csvName, Class<T> clazz) {
-	File file = new File(CSV_HOME + csvName);
+	InputStream is = getClass().getResourceAsStream(CSV_HOME + csvName);
+//	File file = new File(CSV_HOME + csvName);new FileReader(file)
 	List<T> entities;
-	try (Reader reader = new BufferedReader(new FileReader(file))) {
+	try (Reader reader = new BufferedReader(new InputStreamReader(is))) {
 
 	    CsvToBean<T> csvToBean = new CsvToBeanBuilder<T>(reader)
 		    .withIgnoreLeadingWhiteSpace(true)
