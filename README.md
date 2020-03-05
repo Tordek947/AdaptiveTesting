@@ -27,4 +27,5 @@ To run this app you should have several dependencies installed on your computer:
 7. On the opened JavaFX gui window hit the button **Initialize database** and wait for several seconds till it is done;
 8. Start the test using corresponding button & enjoy!
 
-_Hint_**: you can also communicate with the app using REST API following the next path in your browser: http://localhost:8080/swagger-ui.html
+_Hint_** : you can also communicate with the app using REST API following the next path in your browser: http://localhost:8080/swagger-ui.html
+P.S. After you close the app, please, make sure your docker container is also down invoking _docker-compose down_ from the root folder.
