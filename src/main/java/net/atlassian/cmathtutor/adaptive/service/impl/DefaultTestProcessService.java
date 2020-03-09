@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import com.google.common.collect.Lists;
 
+import lombok.AllArgsConstructor;
 import net.atlassian.cmathtutor.adaptive.domain.data.parameter.DecisionMakingParameter;
 import net.atlassian.cmathtutor.adaptive.domain.data.parameter.TestStateParameter;
 import net.atlassian.cmathtutor.adaptive.domain.entity.MinGradeMarkRequirement;
@@ -23,13 +24,11 @@ import net.atlassian.cmathtutor.adaptive.service.QuestionDefinitionRuleService;
 import net.atlassian.cmathtutor.adaptive.service.TestProcessService;
 
 @Component
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class DefaultTestProcessService implements TestProcessService {
 
-    @Autowired
     private QuestionDefinitionRuleService questionDefinitionRuleService;
-    @Autowired
     private QuestionDefinitionRuleMapper questionDefinitionRuleMapper;
-    @Autowired
     private QuestionMapper questionMapper;
 
     @Override

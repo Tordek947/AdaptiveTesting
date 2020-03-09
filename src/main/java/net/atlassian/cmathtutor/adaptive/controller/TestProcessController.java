@@ -11,16 +11,17 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
 import net.atlassian.cmathtutor.adaptive.domain.data.parameter.DecisionMakingParameter;
 import net.atlassian.cmathtutor.adaptive.domain.data.parameter.TestStateParameter;
 import net.atlassian.cmathtutor.adaptive.service.TestProcessService;
 
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 @Tag(name = "TestProcess", description = "Test process definition API")
 @RestController
 @RequestMapping("/rest/testprocesses")
 public class TestProcessController {
 
-    @Autowired
     private TestProcessService testProcessService;
 
     @Operation(summary = "Get available questions for current test state")
