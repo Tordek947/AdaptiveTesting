@@ -10,5 +10,5 @@ public interface GradeMarkChangeRuleService {
 
     GradeMarkChangeRule create(GradeMarkChangeRule gradeMarkChangeRule, Long questionAnswerId);
 
-    List<GradeMarkChangeRule> create(Iterable<GradeMarkChangeRule> gradeMarkChangeRules, Long questionAnswerId);
+    List<GradeMarkChangeRule> create(List<GradeMarkChangeRule> gradeMarkChangeRules, Long questionAnswerId);
 }

@@ -5,15 +5,16 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import lombok.AllArgsConstructor;
 import net.atlassian.cmathtutor.adaptive.domain.entity.GradeMarkChangeRule;
 import net.atlassian.cmathtutor.adaptive.exception.NotFoundException;
 import net.atlassian.cmathtutor.adaptive.repository.GradeMarkChangeRuleRepository;
 import net.atlassian.cmathtutor.adaptive.service.GradeMarkChangeRuleService;
 
 @Service
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class DefaultGradeMarkChangeRuleService implements GradeMarkChangeRuleService {
 
-    @Autowired
     private GradeMarkChangeRuleRepository gradeMarkChangeRuleRepository;
 
     @Override
@@ -33,7 +34,7 @@ public class DefaultGradeMarkChangeRuleService implements GradeMarkChangeRuleSer
     }
 
     @Override
-    public List<GradeMarkChangeRule> create(Iterable<GradeMarkChangeRule> gradeMarkChangeRules, Long questionAnswerId) {
+    public List<GradeMarkChangeRule> create(List<GradeMarkChangeRule> gradeMarkChangeRules, Long questionAnswerId) {
 	for (GradeMarkChangeRule gradeMarkChangeRule : gradeMarkChangeRules) {
 	    prepareForCreation(gradeMarkChangeRule, questionAnswerId);
 	}

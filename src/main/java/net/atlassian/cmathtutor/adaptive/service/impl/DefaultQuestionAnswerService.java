@@ -7,17 +7,17 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import lombok.AllArgsConstructor;
 import net.atlassian.cmathtutor.adaptive.domain.entity.QuestionAnswer;
 import net.atlassian.cmathtutor.adaptive.repository.QuestionAnswerRepository;
 import net.atlassian.cmathtutor.adaptive.service.GradeMarkChangeRuleService;
 import net.atlassian.cmathtutor.adaptive.service.QuestionAnswerService;
 
 @Service
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class DefaultQuestionAnswerService implements QuestionAnswerService {
 
-    @Autowired
     private QuestionAnswerRepository questionAnswerRepository;
-    @Autowired
     private GradeMarkChangeRuleService gradeMarkChangeRuleService;
 
     @Transactional
@@ -27,7 +27,7 @@ public class DefaultQuestionAnswerService implements QuestionAnswerService {
 	questionAnswer = questionAnswerRepository.save(questionAnswer);
 	Long questionAnswerId = questionAnswer.getId();
 	gradeMarkChangeRuleService.create(questionAnswer.getGradeMarkChangeRules(), questionAnswerId);
-	return questionAnswerRepository.save(questionAnswer);
+	return questionAnswer;
     }
 
     private void prepareForCreation(QuestionAnswer questionAnswer, Integer questionId) {
@@ -37,16 +37,16 @@ public class DefaultQuestionAnswerService implements QuestionAnswerService {
 
     @Transactional
     @Override
-    public List<QuestionAnswer> create(Iterable<QuestionAnswer> questionAnswers, Integer questionId) {
+    public List<QuestionAnswer> create(List<QuestionAnswer> questionAnswers, Integer questionId) {
 	for (QuestionAnswer questionAnswer : questionAnswers) {
 	    prepareForCreation(questionAnswer, questionId);
 	}
-	List<QuestionAnswer> savedQuestionAnswers = questionAnswerRepository.saveAll(questionAnswers);
-	for (QuestionAnswer questionAnswer : savedQuestionAnswers) {
+	questionAnswers = questionAnswerRepository.saveAll(questionAnswers);
+	for (QuestionAnswer questionAnswer : questionAnswers) {
 	    Long questionAnswerId = questionAnswer.getId();
 	    gradeMarkChangeRuleService.create(questionAnswer.getGradeMarkChangeRules(), questionAnswerId);
 	}
-	return questionAnswerRepository.saveAll(savedQuestionAnswers);
+	return questionAnswers;
     }
 
 }

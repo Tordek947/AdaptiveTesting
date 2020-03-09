@@ -2,9 +2,12 @@ package net.atlassian.cmathtutor.adaptive.domain.mapper.impl;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import lombok.AllArgsConstructor;
 import net.atlassian.cmathtutor.adaptive.domain.data.CreateQuestionData;
 import net.atlassian.cmathtutor.adaptive.domain.data.QuestionData;
 import net.atlassian.cmathtutor.adaptive.domain.entity.Question;
@@ -12,12 +15,10 @@ import net.atlassian.cmathtutor.adaptive.domain.entity.QuestionAnswer;
 import net.atlassian.cmathtutor.adaptive.domain.mapper.Mapper;
 
 @Component
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class QuestionMapper implements Mapper<CreateQuestionData, QuestionData, Question> {
 
-//    @Autowired
-//    private EntityManager em;
-
-    @Autowired
+    private EntityManager em;
     private QuestionAnswerMapper questionAnswerMapper;
 
     @Override
@@ -36,11 +37,11 @@ public class QuestionMapper implements Mapper<CreateQuestionData, QuestionData, 
 		.id(entity.getId())
 		.sentence(entity.getSentence())
 		.build();
-//	if (em.getEntityManagerFactory().getPersistenceUnitUtil().isLoaded(entity, "questionAnwsers")) {
-//	    System.out.println("EM said, that question answers are LOADED");
-	questionData.setQuestionAnwsers(Mapper.collectionToList(entity.getQuestionAnswers(),
-		questionAnswerMapper::entityToData));
-//	}
+	if (em.getEntityManagerFactory().getPersistenceUnitUtil().isLoaded(entity, "questionAnwsers")) {
+	    System.out.println("EM said, that question answers are LOADED");
+	    questionData.setQuestionAnwsers(Mapper.collectionToList(entity.getQuestionAnswers(),
+		    questionAnswerMapper::entityToData));
+	}
 	return questionData;
     }
 

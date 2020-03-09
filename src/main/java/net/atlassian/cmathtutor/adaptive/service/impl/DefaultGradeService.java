@@ -1,19 +1,21 @@
 package net.atlassian.cmathtutor.adaptive.service.impl;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import lombok.AllArgsConstructor;
 import net.atlassian.cmathtutor.adaptive.domain.entity.Grade;
 import net.atlassian.cmathtutor.adaptive.exception.NotFoundException;
 import net.atlassian.cmathtutor.adaptive.repository.GradeRepository;
 import net.atlassian.cmathtutor.adaptive.service.GradeService;
 
 @Service
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class DefaultGradeService implements GradeService {
 
-    @Autowired
     private GradeRepository gradeRepository;
 
     @Override
@@ -33,7 +35,7 @@ public class DefaultGradeService implements GradeService {
     }
 
     @Override
-    public List<Grade> create(Iterable<Grade> grades, Integer testId) {
+    public List<Grade> create(Collection<Grade> grades, Integer testId) {
 	for (Grade grade : grades) {
 	    prepareForCreation(grade, testId);
 	}

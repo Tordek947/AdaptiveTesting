@@ -44,7 +44,7 @@ public class Question {
     // because of both session and transaction are closed (at least when calling
     // from JavaFX application part,
     // not from RestController.
-    @OneToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE }, fetch = FetchType.EAGER)
+    @OneToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE }, fetch = FetchType.LAZY)
     @JoinColumn(name = "question_id", nullable = false)
     private List<QuestionAnswer> questionAnswers;
 

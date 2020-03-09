@@ -1,6 +1,5 @@
 package net.atlassian.cmathtutor.adaptive.service.impl;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -12,6 +11,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import lombok.AllArgsConstructor;
 import net.atlassian.cmathtutor.adaptive.domain.entity.Grade;
 import net.atlassian.cmathtutor.adaptive.domain.entity.GradeMarkChangeRule;
 import net.atlassian.cmathtutor.adaptive.domain.entity.Question;
@@ -22,6 +22,7 @@ import net.atlassian.cmathtutor.adaptive.service.QuestionAnswerService;
 import net.atlassian.cmathtutor.adaptive.service.QuestionService;
 
 @Service
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class DefaultQuestionService implements QuestionService {
 
     @Autowired
@@ -47,7 +48,7 @@ public class DefaultQuestionService implements QuestionService {
 	question = questionRepository.save(question);
 	Integer questionId = question.getId();
 	questionAnswerService.create(question.getQuestionAnswers(), questionId);
-	return questionRepository.save(question);
+	return question;
     }
 
     private void prepareForCreation(Question question, Integer testId) {
@@ -68,7 +69,7 @@ public class DefaultQuestionService implements QuestionService {
 
     @Transactional
     @Override
-    public List<Question> create(Collection<Question> questions, Integer testId) {
+    public List<Question> create(List<Question> questions, Integer testId) {
 	for (Question question : questions) {
 	    prepareForCreation(question, testId);
 	}
