@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
 import net.atlassian.cmathtutor.adaptive.domain.data.CreateQuestionDefinitionRuleData;
 import net.atlassian.cmathtutor.adaptive.domain.data.QuestionDefinitionRuleData;
 import net.atlassian.cmathtutor.adaptive.domain.mapper.Mapper;
@@ -23,14 +24,13 @@ import net.atlassian.cmathtutor.adaptive.domain.mapper.impl.QuestionDefinitionRu
 import net.atlassian.cmathtutor.adaptive.exception.NotFoundApiResponse;
 import net.atlassian.cmathtutor.adaptive.service.QuestionDefinitionRuleService;
 
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 @Tag(name = "QuestionDefinitionRule", description = "QuestionDefinitionRule management API")
 @RestController
 @RequestMapping("/rest/tests/{testId}/questionDefinitionRules")
 public class QuestionDefinitionRuleController {
 
-    @Autowired
     private QuestionDefinitionRuleService questionDefinitionRuleService;
-    @Autowired
     private QuestionDefinitionRuleMapper questionDefinitionRuleMapper;
 
     @Operation(summary = "Get all question definition rules for testId")

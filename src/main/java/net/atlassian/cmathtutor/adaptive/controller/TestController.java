@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
 import net.atlassian.cmathtutor.adaptive.domain.data.CreateTestData;
 import net.atlassian.cmathtutor.adaptive.domain.data.TestData;
 import net.atlassian.cmathtutor.adaptive.domain.mapper.Mapper;
@@ -24,14 +25,13 @@ import net.atlassian.cmathtutor.adaptive.domain.mapper.impl.TestMapper;
 import net.atlassian.cmathtutor.adaptive.exception.NotFoundApiResponse;
 import net.atlassian.cmathtutor.adaptive.service.TestService;
 
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 @Tag(name = "Test", description = "Test management API")
 @RestController
 @RequestMapping("/rest/tests")
 public class TestController {
 
-    @Autowired
     private TestService testService;
-    @Autowired
     private TestMapper testMapper;
 
     @Operation(summary = "Get test by id")

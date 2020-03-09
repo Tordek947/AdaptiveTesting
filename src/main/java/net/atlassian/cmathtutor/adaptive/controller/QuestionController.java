@@ -14,20 +14,20 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
 import net.atlassian.cmathtutor.adaptive.domain.data.CreateQuestionData;
 import net.atlassian.cmathtutor.adaptive.domain.data.QuestionData;
 import net.atlassian.cmathtutor.adaptive.domain.mapper.impl.QuestionMapper;
 import net.atlassian.cmathtutor.adaptive.exception.NotFoundApiResponse;
 import net.atlassian.cmathtutor.adaptive.service.QuestionService;
 
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 @Tag(name = "Question", description = "Question management API")
 @RestController
 @RequestMapping("/rest/tests/{testId}/questions")
 public class QuestionController {
 
-    @Autowired
     private QuestionService questionService;
-    @Autowired
     private QuestionMapper questionMapper;
 
     @Operation(summary = "Get question by id")
