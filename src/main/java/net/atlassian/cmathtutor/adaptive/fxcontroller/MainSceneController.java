@@ -227,12 +227,17 @@ public class MainSceneController implements Initializable {
 	    answerOptionsVBox.getChildren().addAll(options);
 	});
 	testStateParameter.getAlreadyDisplayedQuestionIds().add(questionData.getId());
-	checkAnswerButton.setDisable(false);
+	checkAnswerButton.setDisable(true);
     }
 
     private RadioButton createAnswerRadioButton(QuestionAnswerData answer) {
 	RadioButton rb = new RadioButton(answer.getSentence());
+	rb.setOnAction(this::onSelectAnswer);
 	return rb;
+    }
+
+    private void onSelectAnswer(ActionEvent event) {
+	this.checkAnswerButton.setDisable(false);
     }
 
     @FXML
