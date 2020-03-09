@@ -174,7 +174,7 @@ public class MainSceneController implements Initializable {
 	    int randomQuestionNumber = random.nextInt(availableQuestions.size());
 	    QuestionData chosenQuestionData = availableQuestions.get(randomQuestionNumber);
 	    testStateParameter.getAlreadyDisplayedQuestionIds().add(chosenQuestionData.getId());
-	    displayQuestion(chosenQuestionData);
+	    displayQuestion(getQuestionWithQuestionAnswers(chosenQuestionData.getId()));
 	}
     }
 
@@ -182,6 +182,13 @@ public class MainSceneController implements Initializable {
 	return restTemplate.postForEntity(
 		URI.create("http://localhost:8080/rest/testprocesses/questions/available"),
 		testStateParameter, DecisionMakingParameter.class).getBody();
+    }
+
+    private QuestionData getQuestionWithQuestionAnswers(Integer questionId) {
+	return restTemplate.getForEntity(
+		URI.create(String.format("http://localhost:8080/rest/tests/%s/questions/%s",
+			testStateParameter.getTestId(), questionId)),
+		QuestionData.class).getBody();
     }
 
     private String mapToLoggedRuleString(QuestionDefinitionRuleData questionDefinitionRule) {

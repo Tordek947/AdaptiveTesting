@@ -41,7 +41,7 @@ public class QuestionDefinitionRule {
     @Column(name = "question_number_to")
     private Integer questionNumberTo;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "min_grade_mark_requirement",
 	    joinColumns = @JoinColumn(name = "question_definition_rule_id", nullable = false))
     private Set<MinGradeMarkRequirement> minGradeMarkRequirements;
