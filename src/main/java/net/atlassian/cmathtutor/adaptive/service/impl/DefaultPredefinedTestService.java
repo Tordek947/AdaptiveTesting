@@ -21,6 +21,7 @@ import com.google.common.collect.Lists;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 
+import lombok.AllArgsConstructor;
 import net.atlassian.cmathtutor.adaptive.domain.data.CreateQuestionDefinitionRuleData;
 import net.atlassian.cmathtutor.adaptive.domain.data.MinMarkRequirementData;
 import net.atlassian.cmathtutor.adaptive.domain.data.csv.ScanGradeMarkChangeRuleData;
@@ -40,19 +41,14 @@ import net.atlassian.cmathtutor.adaptive.service.QuestionService;
 import net.atlassian.cmathtutor.adaptive.service.TestService;
 
 @Service
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class DefaultPredefinedTestService implements PredefinedTestService {
 
     private static final String CSV_HOME = "/csv/simple-english-credit/";
-//	    "C:/Users/Hryhorii_Popov/Data/Other/Learning/KPI/4/2Sem/AI/lab/1/AdaptiveTesting"
-//	    + "/src/main/resources/csv/simple-english-credit/";
 
-    @Autowired
     private TestService testService;
-    @Autowired
     private QuestionService questionService;
-    @Autowired
     private QuestionDefinitionRuleService questionDefinitionRuleService;
-    @Autowired
     private QuestionDefinitionRuleMapper questionDefinitionRuleMapper;
 
     @Transactional
@@ -78,7 +74,6 @@ public class DefaultPredefinedTestService implements PredefinedTestService {
 
     private <T> List<T> parseCsv(String csvName, Class<T> clazz) {
 	InputStream is = getClass().getResourceAsStream(CSV_HOME + csvName);
-//	File file = new File(CSV_HOME + csvName);new FileReader(file)
 	List<T> entities;
 	try (Reader reader = new BufferedReader(new InputStreamReader(is))) {
 

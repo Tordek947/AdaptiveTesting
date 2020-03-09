@@ -8,5 +8,5 @@ public interface QuestionAnswerService {
 
     QuestionAnswer create(QuestionAnswer questionAnswer, Integer questionId);
 
-    List<QuestionAnswer> create(Iterable<QuestionAnswer> questionAnswers, Integer questionId);
+    List<QuestionAnswer> create(List<QuestionAnswer> questionAnswers, Integer questionId);
 }

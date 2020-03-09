@@ -10,14 +10,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
 import net.atlassian.cmathtutor.adaptive.service.PredefinedTestService;
 
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 @Tag(name = "Predefined Test", description = "Install some predefined packages of tests")
 @RestController
 @RequestMapping("/rest/tests")
 public class PredefinedTestController {
 
-    @Autowired
     private PredefinedTestService predefinedTestService;
 
     @Operation(summary = "Create and fully initialize predefined 'Simple English Credit' test")

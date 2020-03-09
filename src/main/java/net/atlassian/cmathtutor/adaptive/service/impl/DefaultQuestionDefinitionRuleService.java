@@ -12,6 +12,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import lombok.AllArgsConstructor;
 import net.atlassian.cmathtutor.adaptive.domain.entity.Grade;
 import net.atlassian.cmathtutor.adaptive.domain.entity.Question;
 import net.atlassian.cmathtutor.adaptive.domain.entity.QuestionDefinitionRule;
@@ -19,14 +20,12 @@ import net.atlassian.cmathtutor.adaptive.repository.QuestionDefinitionRuleReposi
 import net.atlassian.cmathtutor.adaptive.service.GradeService;
 import net.atlassian.cmathtutor.adaptive.service.QuestionDefinitionRuleService;
 
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 @Component
 public class DefaultQuestionDefinitionRuleService implements QuestionDefinitionRuleService {
 
-    @Autowired
     private QuestionDefinitionRuleRepository questionDefinitionRuleRepository;
-    @Autowired
     private GradeService gradeService;
-    @Autowired
     private EntityManager em;
 
     @Override

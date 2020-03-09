@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import lombok.AllArgsConstructor;
 import net.atlassian.cmathtutor.adaptive.domain.data.CreateQuestionAnswerData;
 import net.atlassian.cmathtutor.adaptive.domain.data.MarkChangeRuleData;
 import net.atlassian.cmathtutor.adaptive.domain.data.QuestionAnswerData;
@@ -14,9 +15,9 @@ import net.atlassian.cmathtutor.adaptive.domain.entity.QuestionAnswer;
 import net.atlassian.cmathtutor.adaptive.domain.mapper.Mapper;
 
 @Component
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class QuestionAnswerMapper implements Mapper<CreateQuestionAnswerData, QuestionAnswerData, QuestionAnswer> {
 
-    @Autowired
     private GradeMarkChangeRuleMapper gradeMarkChangeRuleMapper;
 
     @Override
