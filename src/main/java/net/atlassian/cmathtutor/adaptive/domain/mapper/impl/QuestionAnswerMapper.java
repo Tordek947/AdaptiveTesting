@@ -1,7 +1,7 @@
 package net.atlassian.cmathtutor.adaptive.domain.mapper.impl;
 
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -22,8 +22,8 @@ public class QuestionAnswerMapper implements Mapper<CreateQuestionAnswerData, Qu
 
     @Override
     public QuestionAnswer dataToEntity(CreateQuestionAnswerData data) {
-	List<GradeMarkChangeRule> gradeMarkChangeRules = Mapper
-		.collectionToList(data.getGradeMarkChangeRules().entrySet(), gradeMarkChangeRuleMapper::dataToEntity);
+	Set<GradeMarkChangeRule> gradeMarkChangeRules = Mapper
+		.collectionToSet(data.getGradeMarkChangeRules().entrySet(), gradeMarkChangeRuleMapper::dataToEntity);
 	return QuestionAnswer.builder()
 		.gradeMarkChangeRules(gradeMarkChangeRules)
 		.isCorrect(data.getIsCorrect())

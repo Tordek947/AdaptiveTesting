@@ -3,12 +3,14 @@ package net.atlassian.cmathtutor.adaptive.service.impl;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.only;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -88,7 +90,7 @@ class DefaultGradeMarkChangeRuleServiceTest {
 		buildGradeMarkChangeRule());
 	when(gradeMarkChangeRuleRepository.saveAll(any())).thenReturn(gradeMarkChangeRules);
 
-	List<GradeMarkChangeRule> createdGradeMarkChangeRules = defaultGradeMarkChangeRuleService.create(
+	Collection<GradeMarkChangeRule> createdGradeMarkChangeRules = defaultGradeMarkChangeRuleService.create(
 		gradeMarkChangeRules,
 		QUESTION_ANSWER_ID);
 

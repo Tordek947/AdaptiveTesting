@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.only;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -23,6 +24,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.AdditionalAnswers;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -45,7 +47,7 @@ class DefaultTestServiceTest {
     private QuestionService questionService;
     @Mock
     private GradeService gradeService;
-    
+
     private final static Integer TEST_ID = 1;
     private final static String TEST_NAME = "Test name";
     private net.atlassian.cmathtutor.adaptive.domain.entity.Test test;
@@ -58,7 +60,7 @@ class DefaultTestServiceTest {
 		.id(TEST_ID)
 		.name(TEST_NAME)
 		.grades(Collections.emptyMap())
-		.questions(Collections.emptyList())
+		.questions(Collections.emptySet())
 		.build();
 	allSavedTests = Lists.newArrayList(test, new net.atlassian.cmathtutor.adaptive.domain.entity.Test());
     }
@@ -138,6 +140,48 @@ class DefaultTestServiceTest {
 	verify(testRepository, atLeastOnce()).save(test);
 	verify(gradeService, only()).create(test.getGrades().values(), TEST_ID);
 	verify(questionService, only()).create(test.getQuestions(), TEST_ID);
+    }
+
+    @Test
+    void when_EntityWithSpecifiedId_IsPresent_then_updateNameById_shouldReturn_EntityWithUpdatedName() {
+	when(testRepository.findById(any())).thenReturn(Optional.of(test));
+	when(testRepository.save(any())).thenAnswer(AdditionalAnswers.returnsFirstArg());
+	String newName = "The new test name!";
+
+	assertThat(defaultTestService.updateNameById(newName, TEST_ID).getName(), is(equalTo(newName)));
+
+	verify(testRepository).findById(TEST_ID);
+	verify(testRepository).save(test);
+    }
+
+    @Test
+    void when_EntityWithSpecifiedId_IsAbsent_then_updateNameById_shouldThrow_NotFoundException() {
+	when(testRepository.findById(any())).thenReturn(Optional.empty());
+	String newName = "The new test name!";
+
+	assertThrows(NotFoundException.class, () -> defaultTestService.updateNameById(newName, TEST_ID));
+
+	verify(testRepository, only()).findById(TEST_ID);
+    }
+
+    @Test
+    void when_EntityWithSpecifiedId_IsPresent_then_deleteById_should_deleteById() {
+	when(testRepository.existsById(any())).thenReturn(true);
+	doNothing().when(testRepository).deleteById(any());
+
+	defaultTestService.deleteById(TEST_ID);
+
+	verify(testRepository).existsById(TEST_ID);
+	verify(testRepository).deleteById(TEST_ID);
+    }
+
+    @Test
+    void when_EntityWithSpecifiedId_IsAbsent_then_deleteById_shouldThrow_NotFoundException() {
+	when(testRepository.existsById(any())).thenReturn(false);
+
+	assertThrows(NotFoundException.class, () -> defaultTestService.deleteById(TEST_ID));
+
+	verify(testRepository, only()).existsById(TEST_ID);
     }
 
 }

@@ -1,6 +1,6 @@
 package net.atlassian.cmathtutor.adaptive.service.impl;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -69,17 +69,17 @@ public class DefaultQuestionService implements QuestionService {
 
     @Transactional
     @Override
-    public List<Question> create(List<Question> questions, Integer testId) {
+    public Collection<Question> create(Collection<Question> questions, Integer testId) {
 	for (Question question : questions) {
 	    prepareForCreation(question, testId);
 	}
 	replaceGradesWithExistedOnes(questions.stream(), testId);
-	List<Question> savedQuestions = questionRepository.saveAll(questions);
-	for (Question question : savedQuestions) {
+	questions = questionRepository.saveAll(questions);
+	for (Question question : questions) {
 	    Integer questionId = question.getId();
 	    questionAnswerService.create(question.getQuestionAnswers(), questionId);
 	}
-	return questionRepository.saveAll(savedQuestions);
+	return questionRepository.saveAll(questions);
     }
 
 }

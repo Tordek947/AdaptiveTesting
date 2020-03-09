@@ -1,6 +1,6 @@
 package net.atlassian.cmathtutor.adaptive.domain.entity;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -19,6 +19,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
@@ -44,9 +45,10 @@ public class Question {
     // because of both session and transaction are closed (at least when calling
     // from JavaFX application part,
     // not from RestController.
+    @EqualsAndHashCode.Exclude
     @OneToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE }, fetch = FetchType.LAZY)
     @JoinColumn(name = "question_id", nullable = false)
-    private List<QuestionAnswer> questionAnswers;
+    private Set<QuestionAnswer> questionAnswers;
 
     @Column(name = "test_id")
     private Integer testId;

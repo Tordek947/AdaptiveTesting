@@ -1,6 +1,6 @@
 package net.atlassian.cmathtutor.adaptive.domain.entity;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
@@ -44,14 +44,14 @@ public class QuestionDefinitionRule {
     @ElementCollection
     @CollectionTable(name = "min_grade_mark_requirement",
 	    joinColumns = @JoinColumn(name = "question_definition_rule_id", nullable = false))
-    private List<MinGradeMarkRequirement> minGradeMarkRequirements;
+    private Set<MinGradeMarkRequirement> minGradeMarkRequirements;
 
     @ManyToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH },
 	    fetch = FetchType.EAGER)
     @JoinTable(name = "question_definition_rule_has_question",
 	    joinColumns = @JoinColumn(name = "question_definition_rule_id"),
 	    inverseJoinColumns = @JoinColumn(name = "question_id"))
-    private List<Question> questions;
+    private Set<Question> questions;
 
     @Column(name = "test_id")
     private Integer testId;

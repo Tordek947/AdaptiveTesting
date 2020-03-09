@@ -1,6 +1,6 @@
 package net.atlassian.cmathtutor.adaptive.service.impl;
 
-import java.util.List;
+import java.util.Collection;
 
 import javax.transaction.Transactional;
 
@@ -37,7 +37,7 @@ public class DefaultQuestionAnswerService implements QuestionAnswerService {
 
     @Transactional
     @Override
-    public List<QuestionAnswer> create(List<QuestionAnswer> questionAnswers, Integer questionId) {
+    public Collection<QuestionAnswer> create(Collection<QuestionAnswer> questionAnswers, Integer questionId) {
 	for (QuestionAnswer questionAnswer : questionAnswers) {
 	    prepareForCreation(questionAnswer, questionId);
 	}

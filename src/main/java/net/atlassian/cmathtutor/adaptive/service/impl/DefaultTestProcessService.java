@@ -1,5 +1,6 @@
 package net.atlassian.cmathtutor.adaptive.service.impl;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -45,12 +46,12 @@ public class DefaultTestProcessService implements TestProcessService {
 	Set<Integer> alreadyDisplayedQuestionIds = testState.getAlreadyDisplayedQuestionIds();
 	Map<String, Integer> currentGradeMarks = testState.getGradeMarks();
 	List<QuestionDefinitionRule> appliedQuestionDefinitionRules = Lists.newLinkedList();
-	List<Question> suitableQuestions = questionDefinitionRules.stream()
+	Set<Question> suitableQuestions = questionDefinitionRules.stream()
 		.filter(qdr -> isSuitableForCurrentGradeMarks(qdr, currentGradeMarks))
 		.peek(appliedQuestionDefinitionRules::add)
 		.map(QuestionDefinitionRule::getQuestions)
-		.filter(qdr -> isEmptyOrContainsNotAlreadyDisplayed(qdr, alreadyDisplayedQuestionIds))
-		.findFirst().orElse(Collections.emptyList());
+		.filter(questions -> isEmptyOrContainsNotAlreadyDisplayed(questions, alreadyDisplayedQuestionIds))
+		.findFirst().orElse(Collections.emptySet());
 	List<Question> availableQuestions = notAlreadyDisplayed(suitableQuestions, alreadyDisplayedQuestionIds);
 	return DecisionMakingParameter.builder()
 		.appliedQuestionDefinitionRules(Mapper.collectionToList(appliedQuestionDefinitionRules,
@@ -67,7 +68,7 @@ public class DefaultTestProcessService implements TestProcessService {
 			.get(minGradeMarkRequirement.getGrade().getCode()) >= minGradeMarkRequirement.getValue());
     }
 
-    private boolean isEmptyOrContainsNotAlreadyDisplayed(List<Question> questions,
+    private boolean isEmptyOrContainsNotAlreadyDisplayed(Collection<Question> questions,
 	    Set<Integer> alreadyDisplayedQuestionIds) {
 	if (questions.isEmpty()) {
 	    return true;
@@ -76,7 +77,7 @@ public class DefaultTestProcessService implements TestProcessService {
 		.isPresent();
     }
 
-    private List<Question> notAlreadyDisplayed(List<Question> questions, Set<Integer> alreadyDisplayedQuestionIds) {
+    private List<Question> notAlreadyDisplayed(Set<Question> questions, Set<Integer> alreadyDisplayedQuestionIds) {
 	return questions.stream()
 		.filter(question -> !alreadyDisplayedQuestionIds.contains(question.getId()))
 		.collect(Collectors.toList());

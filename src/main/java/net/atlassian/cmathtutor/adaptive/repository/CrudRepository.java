@@ -1,6 +1,6 @@
 package net.atlassian.cmathtutor.adaptive.repository;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.springframework.data.repository.NoRepositoryBean;
 
@@ -8,11 +8,12 @@ import org.springframework.data.repository.NoRepositoryBean;
 public interface CrudRepository<T, ID> extends org.springframework.data.repository.CrudRepository<T, ID> {
 
     @Override
-    List<T> findAll();
+    Collection<T> findAll();
 
     @Override
-    List<T> findAllById(Iterable<ID> ids);
+    Collection<T> findAllById(Iterable<ID> ids);
 
     @Override
-    <S extends T> List<S> saveAll(Iterable<S> entities);
+    <S extends T> Collection<S> saveAll(Iterable<S> entities);
+
 }

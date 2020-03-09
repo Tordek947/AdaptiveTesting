@@ -1,8 +1,8 @@
 package net.atlassian.cmathtutor.adaptive.domain.entity;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -47,13 +47,13 @@ public class Test {
     @Column(name = "creator_name")
     private String creatorName;
 
-    @OneToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE },
-	    fetch = FetchType.EAGER)
+    @OneToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH },
+	    fetch = FetchType.EAGER, orphanRemoval = true)
     @JoinColumn(name = "test_id")
-    private List<Question> questions;
+    private Set<Question> questions;
 
-    @OneToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE },
-	    fetch = FetchType.EAGER)
+    @OneToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH },
+	    fetch = FetchType.EAGER, orphanRemoval = true)
     @JoinColumn(name = "test_id")
     @MapKey(name = "code")
     private Map<String, Grade> grades;

@@ -1,7 +1,6 @@
 package net.atlassian.cmathtutor.adaptive.service;
 
 import java.util.Collection;
-import java.util.List;
 
 import net.atlassian.cmathtutor.adaptive.domain.entity.Grade;
 
@@ -11,8 +10,8 @@ public interface GradeService {
 
     Grade create(Grade grade, Integer testId);
 
-    List<Grade> create(Collection<Grade> grades, Integer testId);
+    Collection<Grade> create(Collection<Grade> grades, Integer testId);
 
-    List<Grade> getAllByTestId(Integer testId);
+    Collection<Grade> getAllByTestId(Integer testId);
 
 }

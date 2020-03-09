@@ -1,6 +1,6 @@
 package net.atlassian.cmathtutor.adaptive.domain.entity;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -51,5 +51,5 @@ public class QuestionAnswer {
     @OneToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE }, fetch = FetchType.EAGER)
     @JoinColumn(name = "question_answer_id", nullable = false)
     @MapKey(name = "grade")
-    private List<GradeMarkChangeRule> gradeMarkChangeRules;
+    private Set<GradeMarkChangeRule> gradeMarkChangeRules;
 }

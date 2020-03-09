@@ -1,6 +1,6 @@
 package net.atlassian.cmathtutor.adaptive.service;
 
-import java.util.List;
+import java.util.Collection;
 
 import net.atlassian.cmathtutor.adaptive.domain.entity.Question;
 
@@ -10,5 +10,5 @@ public interface QuestionService {
 
     Question create(Question question, Integer testId);
 
-    List<Question> create(List<Question> questions, Integer testId);
+    Collection<Question> create(Collection<Question> questions, Integer testId);
 }

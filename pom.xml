@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>net.atlassian.cmathtutor</groupId>
 	<artifactId>AdaptiveTesting</artifactId>
-	<version>1.0.0-alpha</version>
+	<version>1.0.1-alpha</version>
 	<name>AdaptiveTesting</name>
 	<description>A system to perform adaptive testing for any domain</description>
 
@@ -35,11 +35,11 @@
 			<artifactId>liquibase-core</artifactId>
 		</dependency>
 
-		<!-- <dependency> -->
-		<!-- <groupId>mysql</groupId> -->
-		<!-- <artifactId>mysql-connector-java</artifactId> -->
-		<!-- <scope>runtime</scope> -->
-		<!-- </dependency> -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<scope>runtime</scope>
+		</dependency>
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>

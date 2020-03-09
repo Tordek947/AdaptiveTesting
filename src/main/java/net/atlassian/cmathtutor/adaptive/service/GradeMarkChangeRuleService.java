@@ -1,6 +1,6 @@
 package net.atlassian.cmathtutor.adaptive.service;
 
-import java.util.List;
+import java.util.Collection;
 
 import net.atlassian.cmathtutor.adaptive.domain.entity.GradeMarkChangeRule;
 
@@ -10,5 +10,5 @@ public interface GradeMarkChangeRuleService {
 
     GradeMarkChangeRule create(GradeMarkChangeRule gradeMarkChangeRule, Long questionAnswerId);
 
-    List<GradeMarkChangeRule> create(List<GradeMarkChangeRule> gradeMarkChangeRules, Long questionAnswerId);
+    Collection<GradeMarkChangeRule> create(Collection<GradeMarkChangeRule> gradeMarkChangeRules, Long questionAnswerId);
 }

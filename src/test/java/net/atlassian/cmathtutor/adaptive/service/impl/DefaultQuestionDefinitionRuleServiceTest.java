@@ -5,7 +5,7 @@ import static org.hamcrest.CoreMatchers.sameInstance;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.only;
 import static org.mockito.Mockito.times;
@@ -13,6 +13,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,6 +27,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 import net.atlassian.cmathtutor.adaptive.domain.entity.Grade;
 import net.atlassian.cmathtutor.adaptive.domain.entity.MinGradeMarkRequirement;
@@ -80,12 +83,13 @@ class DefaultQuestionDefinitionRuleServiceTest {
 
 	QuestionDefinitionRule createdQuestionDefinitionRule = defaultQuestionDefinitionRuleService
 		.create(questionDefinitionRule, TEST_ID);
-	List<MinGradeMarkRequirement> minGradeMarkRequirements = createdQuestionDefinitionRule
+	Collection<MinGradeMarkRequirement> minGradeMarkRequirements = createdQuestionDefinitionRule
 		.getMinGradeMarkRequirements();
+	Iterator<MinGradeMarkRequirement> minGradeMarkRequirementsIt = minGradeMarkRequirements.iterator();
 
 	assertAll(() -> assertThat(createdQuestionDefinitionRule, is(sameInstance(questionDefinitionRule))),
-		() -> assertThat(minGradeMarkRequirements.get(0).getGrade(), is(equalTo(savedGrades.get(0)))),
-		() -> assertThat(minGradeMarkRequirements.get(1).getGrade(), is(equalTo(savedGrades.get(1)))));
+		() -> assertThat(minGradeMarkRequirementsIt.next().getGrade(), is(equalTo(savedGrades.get(0)))),
+		() -> assertThat(minGradeMarkRequirementsIt.next().getGrade(), is(equalTo(savedGrades.get(1)))));
 	verify(questionDefinitionRuleRepository).save(questionDefinitionRule);
 	verify(gradeService, only()).getAllByTestId(TEST_ID);
     }
@@ -100,8 +104,8 @@ class DefaultQuestionDefinitionRuleServiceTest {
 		.id(QUESTION_DEFINITION_RULE_ID)
 		.minGradeMarkRequirements(grades.stream().map(grade -> MinGradeMarkRequirement.builder()
 			.grade(grade)
-			.build()).collect(Collectors.toList()))
-		.questions(Lists.newArrayList(new Question(), new Question()))
+			.build()).collect(Collectors.toCollection(Sets::newLinkedHashSet)))
+		.questions(Sets.newLinkedHashSet(Lists.newArrayList(new Question(), new Question())))
 		.build();
     }
 
@@ -115,7 +119,7 @@ class DefaultQuestionDefinitionRuleServiceTest {
 	when(gradeService.getAllByTestId(any())).thenReturn(savedGrades);
 	when(questionDefinitionRuleRepository.saveAll(any())).thenReturn(questionDefinitionRules);
 
-	List<QuestionDefinitionRule> createdQuestionDefinitionRules = defaultQuestionDefinitionRuleService
+	Collection<QuestionDefinitionRule> createdQuestionDefinitionRules = defaultQuestionDefinitionRuleService
 		.create(questionDefinitionRules, TEST_ID);
 	List<Grade> usedGrades = createdQuestionDefinitionRules.stream()
 		.flatMap(qdr -> qdr.getMinGradeMarkRequirements().stream())

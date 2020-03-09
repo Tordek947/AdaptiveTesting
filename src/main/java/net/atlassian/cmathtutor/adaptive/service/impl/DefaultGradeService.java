@@ -35,7 +35,7 @@ public class DefaultGradeService implements GradeService {
     }
 
     @Override
-    public List<Grade> create(Collection<Grade> grades, Integer testId) {
+    public Collection<Grade> create(Collection<Grade> grades, Integer testId) {
 	for (Grade grade : grades) {
 	    prepareForCreation(grade, testId);
 	}

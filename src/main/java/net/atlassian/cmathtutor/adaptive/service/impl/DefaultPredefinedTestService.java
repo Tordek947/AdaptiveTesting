@@ -17,7 +17,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 
@@ -58,7 +58,7 @@ public class DefaultPredefinedTestService implements PredefinedTestService {
 	Test test = Test.builder()
 		.grades(grades)
 		.name(SIMPLE_ENGLISH_CREDIT_NAME)
-		.questions(Collections.emptyList())
+		.questions(Collections.emptySet())
 		.build();
 	test = testService.create(test);
 
@@ -95,14 +95,14 @@ public class DefaultPredefinedTestService implements PredefinedTestService {
 	final String questionsCsvName = "questions.csv";
 	List<Question> questions = parseCsv(questionsCsvName, Question.class);
 	questions.forEach(q -> {
-	    q.setQuestionAnswers(Lists.newArrayList());
+	    q.setQuestionAnswers(Sets.newHashSet());
 	    q.setTestId(test.getId());
 	});
 	List<QuestionAnswer> answers = parseCsv("question_answers.csv", QuestionAnswer.class);
 	Map<Integer, Question> questionsById = questions.stream()
 		.collect(Collectors.toMap(Question::getId, Function.identity()));
 	answers.forEach(qa -> {
-	    qa.setGradeMarkChangeRules(Lists.newArrayList());
+	    qa.setGradeMarkChangeRules(Sets.newHashSet());
 	    questionsById.get(qa.getQuestionId()).getQuestionAnswers().add(qa);
 	});
 	List<ScanGradeMarkChangeRuleData> scanGradeMarkChangeRules = parseCsv("grade_mark_change_rules.csv",

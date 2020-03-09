@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -21,5 +22,9 @@ public interface Mapper<CD, D, E> {
 
     static <T_FROM, T_TO> List<T_TO> collectionToList(Collection<T_FROM> collection, Function<T_FROM, T_TO> mapper) {
 	return collection.stream().map(mapper).collect(Collectors.toList());
+    }
+
+    static <T_FROM, T_TO> Set<T_TO> collectionToSet(Collection<T_FROM> collection, Function<T_FROM, T_TO> mapper) {
+	return collection.stream().map(mapper).collect(Collectors.toSet());
     }
 }

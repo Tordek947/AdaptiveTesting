@@ -5,13 +5,16 @@ import static org.hamcrest.CoreMatchers.sameInstance;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.only;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -23,6 +26,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 import net.atlassian.cmathtutor.adaptive.domain.entity.Grade;
 import net.atlassian.cmathtutor.adaptive.domain.entity.GradeMarkChangeRule;
@@ -84,12 +88,12 @@ class DefaultQuestionServiceTest {
 	when(questionRepository.save(any())).thenReturn(question);
 
 	Question createdQuestion = defaultQuestionService.create(question, TEST_ID);
-	List<GradeMarkChangeRule> gradeMarkChangeRules = createdQuestion.getQuestionAnswers().get(0)
-		.getGradeMarkChangeRules();
+	Iterator<GradeMarkChangeRule> gradeMarkChangeRulesIt = createdQuestion.getQuestionAnswers().iterator().next()
+		.getGradeMarkChangeRules().iterator();
 
 	assertAll(() -> assertThat(createdQuestion, is(sameInstance(question))),
-		() -> assertThat(gradeMarkChangeRules.get(0).getGrade(), is(equalTo(savedGrades.get(0)))),
-		() -> assertThat(gradeMarkChangeRules.get(1).getGrade(), is(equalTo(savedGrades.get(1)))));
+		() -> assertThat(gradeMarkChangeRulesIt.next().getGrade(), is(equalTo(savedGrades.get(0)))),
+		() -> assertThat(gradeMarkChangeRulesIt.next().getGrade(), is(equalTo(savedGrades.get(1)))));
 	verify(questionRepository).save(question);
 	verify(questionAnswerService, atLeastOnce()).create(question.getQuestionAnswers(), createdQuestion.getId());
 	verify(gradeService, only()).getAllByTestId(TEST_ID);
@@ -98,17 +102,17 @@ class DefaultQuestionServiceTest {
     private Question buildQuestion() {
 	return Question.builder()
 		.id(QUESTION_ID)
-		.questionAnswers(Lists.newArrayList(
+		.questionAnswers(Sets.newLinkedHashSet(Lists.newArrayList(
 			QuestionAnswer.builder()
 				.questionId(QUESTION_ID)
-				.gradeMarkChangeRules(Lists.newArrayList(
+				.gradeMarkChangeRules(Sets.newLinkedHashSet(Lists.newArrayList(
 					GradeMarkChangeRule.builder()
 						.grade(Grade.builder().code(GRADE_CODE_1).build())
 						.build(),
 					GradeMarkChangeRule.builder()
 						.grade(Grade.builder().code(GRADE_CODE_2).build())
-						.build()))
-				.build()))
+						.build())))
+				.build())))
 		.testId(TEST_ID)
 		.build();
     }
@@ -121,9 +125,9 @@ class DefaultQuestionServiceTest {
 	when(gradeService.getAllByTestId(any())).thenReturn(savedGrades);
 	when(questionRepository.saveAll(any())).thenReturn(questions);
 
-	List<Question> createdQuestions = defaultQuestionService.create(questions, TEST_ID);
+	Collection<Question> createdQuestions = defaultQuestionService.create(questions, TEST_ID);
 	List<Grade> usedGrades = createdQuestions.stream()
-		.flatMap(q -> q.getQuestionAnswers().get(0).getGradeMarkChangeRules().stream())
+		.flatMap(q -> q.getQuestionAnswers().iterator().next().getGradeMarkChangeRules().stream())
 		.map(GradeMarkChangeRule::getGrade)
 		.collect(Collectors.toList());
 
@@ -131,7 +135,7 @@ class DefaultQuestionServiceTest {
 		() -> assertThat(usedGrades, hasItems(savedGrades.toArray(new Grade[0]))));
 	verify(questionRepository, atLeastOnce()).saveAll(questions);
 	verify(questionAnswerService, atLeastOnce()).create(questions.get(0).getQuestionAnswers(),
-		createdQuestions.get(0).getId());
+		createdQuestions.iterator().next().getId());
 	verify(gradeService, only()).getAllByTestId(TEST_ID);
     }
 

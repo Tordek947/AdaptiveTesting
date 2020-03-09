@@ -21,11 +21,11 @@ public class QuestionDefinitionRuleMapper
     @Override
     public QuestionDefinitionRule dataToEntity(CreateQuestionDefinitionRuleData data) {
 	return QuestionDefinitionRule.builder()
-		.minGradeMarkRequirements(Mapper.collectionToList(data.getMinGradeMarkRequirements().entrySet(),
+		.minGradeMarkRequirements(Mapper.collectionToSet(data.getMinGradeMarkRequirements().entrySet(),
 			minGradeMarkRequirementMapper::dataToEntity))
 		.questionNumberFrom(data.getQuestionNumberFrom())
 		.questionNumberTo(data.getQuestionNumberTo())
-		.questions(Mapper.collectionToList(data.getQuestionIds(), id -> Question.builder().id(id).build()))
+		.questions(Mapper.collectionToSet(data.getQuestionIds(), id -> Question.builder().id(id).build()))
 		.testId(data.getTestId())
 		.build();
     }

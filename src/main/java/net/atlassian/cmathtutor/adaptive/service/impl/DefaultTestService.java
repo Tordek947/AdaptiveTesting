@@ -1,7 +1,8 @@
 package net.atlassian.cmathtutor.adaptive.service.impl;
 
 import java.util.Calendar;
-import java.util.List;
+import java.util.Collection;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -25,13 +26,14 @@ public class DefaultTestService implements TestService {
     private GradeService gradeService;
 
     @Override
-    public List<Test> getAll() {
+    public Collection<Test> getAll() {
 	return testRepository.findAll();
     }
 
     @Override
     public Test getById(Integer id) {
-	return testRepository.findById(id).orElseThrow(NotFoundException::new);
+	Optional<Test> allTestsById = testRepository.findById(id);
+	return allTestsById.orElseThrow(NotFoundException::new);
     }
 
     @Override
@@ -48,6 +50,23 @@ public class DefaultTestService implements TestService {
 	gradeService.create(test.getGrades().values(), testId);
 	questionService.create(test.getQuestions(), testId);
 	return test;
+    }
+
+    @Override
+    public Test updateNameById(String name, Integer id) {
+	Test test = getById(id);
+	test.setName(name);
+	return testRepository.save(test);
+    }
+
+    @Transactional
+    @Override
+    public void deleteById(Integer id) {
+	if (testRepository.existsById(id)) {
+	    testRepository.deleteById(id);
+	} else {
+	    throw new NotFoundException();
+	}
     }
 
 }

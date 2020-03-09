@@ -1,7 +1,9 @@
 package net.atlassian.cmathtutor.adaptive.service.impl;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -55,15 +57,16 @@ public class DefaultQuestionDefinitionRuleService implements QuestionDefinitionR
 
     private void refreshQuestions(Stream<QuestionDefinitionRule> questionDefinitionRules) {
 	questionDefinitionRules.forEach(questionDefinitionRule -> {
-	    List<Question> refreshedQuestions = questionDefinitionRule.getQuestions().stream().map(em::merge)
-		    .peek(em::refresh).collect(Collectors.toList());
+	    Set<Question> refreshedQuestions = questionDefinitionRule.getQuestions().stream().map(em::merge)
+		    .peek(em::refresh).collect(Collectors.toSet());
 	    questionDefinitionRule.setQuestions(refreshedQuestions);
 	});
     }
 
     @Transactional
     @Override
-    public List<QuestionDefinitionRule> create(List<QuestionDefinitionRule> questionDefinitionRules, Integer testId) {
+    public Collection<QuestionDefinitionRule> create(Collection<QuestionDefinitionRule> questionDefinitionRules,
+	    Integer testId) {
 	for (QuestionDefinitionRule questionDefinitionRule : questionDefinitionRules) {
 	    questionDefinitionRule.setId(null);
 	}

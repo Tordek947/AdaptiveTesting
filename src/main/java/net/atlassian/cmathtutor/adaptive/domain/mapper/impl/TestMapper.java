@@ -23,7 +23,7 @@ public class TestMapper implements Mapper<CreateTestData, TestData, Test> {
 		.creatorName(data.getCreatorName())
 		.grades(Mapper.collectionToMap(data.getGrades().entrySet(), gradeMapper::dataToEntity))
 		.name(data.getName())
-		.questions(Mapper.collectionToList(data.getQuestions(), questionMapper::dataToEntity))
+		.questions(Mapper.collectionToSet(data.getQuestions(), questionMapper::dataToEntity))
 		.build();
     }
 

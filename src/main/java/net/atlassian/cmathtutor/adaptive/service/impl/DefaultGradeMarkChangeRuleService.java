@@ -1,6 +1,6 @@
 package net.atlassian.cmathtutor.adaptive.service.impl;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,7 +34,8 @@ public class DefaultGradeMarkChangeRuleService implements GradeMarkChangeRuleSer
     }
 
     @Override
-    public List<GradeMarkChangeRule> create(List<GradeMarkChangeRule> gradeMarkChangeRules, Long questionAnswerId) {
+    public Collection<GradeMarkChangeRule> create(Collection<GradeMarkChangeRule> gradeMarkChangeRules,
+	    Long questionAnswerId) {
 	for (GradeMarkChangeRule gradeMarkChangeRule : gradeMarkChangeRules) {
 	    prepareForCreation(gradeMarkChangeRule, questionAnswerId);
 	}
